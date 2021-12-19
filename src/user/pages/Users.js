@@ -8,7 +8,7 @@ const Users = () => {
       id: 'u1',
       name: 'Shawn Kebel',
       image: 'https://images.pexels.com/photos/1311523/pexels-photo-1311523.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-      places: 3
+      hikes: 3
      }
   ];
 

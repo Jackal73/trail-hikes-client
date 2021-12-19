@@ -1,13 +1,10 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch
+  BrowserRouter as Router, Redirect, Route, Switch
 } from 'react-router-dom';
-
+import NewPlace from './hikes/pages/NewHike';
 import Users from './user/pages/Users';
-import NewPlace from './trails/pages/NewTrail';
+
 
 const App = () => {
   return (
@@ -16,7 +13,7 @@ const App = () => {
         <Route path="/" exact>
           <Users />
         </Route>
-        <Route path="/trails/new" exact>
+        <Route path="/hikes/new" exact>
           <NewPlace />
         </Route>
         <Redirect to="/" />
