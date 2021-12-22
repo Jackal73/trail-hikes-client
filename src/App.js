@@ -5,9 +5,12 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
+
 import NewHike from './hikes/pages/NewHike';
-import Users from './user/pages/Users';
+import UserHikes from './hikes/pages/UserHikes';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
+import Users from './user/pages/Users';
+
 
 
 const App = () => {
@@ -18,6 +21,9 @@ const App = () => {
         <Switch>
           <Route path="/" exact>
             <Users />
+          </Route>
+          <Route path="/:userId/hikes" exact>
+            <UserHikes />
           </Route>
           <Route path="/hikes/new" exact>
             <NewHike />
