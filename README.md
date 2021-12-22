@@ -1,5 +1,5 @@
-# **TrailHikes** - *client side*
-### *using ReactJS*
+# **TrailHikes** 
+ *client-side using ReactJS*
 
 ## Overview
 
