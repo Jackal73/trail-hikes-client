@@ -7,7 +7,7 @@ import './HikeList.css';
 const HikeList = props => {
   if (props.items.length === 0) {
     return (
-      <div className="place-list center">
+      <div className="hike-list center">
         <Card>
           <h2>No hikes found. Maybe create one?</h2>
           <button>Share Hike</button>
@@ -17,7 +17,7 @@ const HikeList = props => {
   }
 
   return (
-    <ul className="place-list">
+    <ul className="hike-list">
       {props.items.map(hike => (
         <HikeItem
           key={hike.id}
