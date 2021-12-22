@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react';import { useParams} from 'react-router-dom';
 
 import HikeList from '../components/HikeList';
 
@@ -6,10 +6,10 @@ import HikeList from '../components/HikeList';
 const DUMMY_HIKES = [
     {
       id: 'p1',
-      title: 'Empire State Building',
-      description: 'One of the most famous sky scrapers in the world!',
-      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
-      address: '20 W 34th St, New York, NY 10001',
+      title: 'Python Minion Trail',
+      description: 'Beautiful stone bridge halfway through hike!',
+      imageUrl: 'https://images.pexels.com/photos/10401037/pexels-photo-10401037.jpeg?cs=srgb&dl=pexels-veronika-bykovich-10401037.jpg&fm=jpg',
+      address: 'Rolla, Mo',
       location: {
         lat: 40.7484405,
         lng: -73.9878584
@@ -18,10 +18,10 @@ const DUMMY_HIKES = [
     },
     {
       id: 'p2',
-      title: 'Empire State Building',
-      description: 'One of the most famous sky scrapers in the world!',
-      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
-      address: '20 W 34th St, New York, NY 10001',
+      title: 'Salt Lick Trail',
+      description: 'I think the dogs had more fun climbing around than we did!',
+      imageUrl: 'https://images.pexels.com/photos/7348515/pexels-photo-7348515.jpeg?cs=srgb&dl=pexels-rodnae-productions-7348515.jpg&fm=jpg',
+      address: 'Columbia, Il',
       location: {
         lat: 40.7484405,
         lng: -73.9878584
@@ -31,7 +31,9 @@ const DUMMY_HIKES = [
   ];
 
 const UserHikes = () => {
-    return <HikeList items={DUMMY_HIKES} />;
+  const userId = useParams().userId;
+  const loadedHikes = DUMMY_HIKES.filter(hike => hike.creator === userId);
+    return <HikeList items={loadedHikes} />;
 };
 
 export default UserHikes;
