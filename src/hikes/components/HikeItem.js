@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
+import Modal from '../../shared/components/UIElements/Modal';
 import './HikeItem.css';
 
 
+
 const HikeItem = props => {
+  const [showMap, setShowMap] = useState(false);
+
+  const openMapHandler = () => setShowMap(true);
+
+  const closeMapHandler = () => setShowMap(false);
+
   return (
+    <React.Fragment>
+      <Modal
+        show={showMap}
+        onCancel={closeMapHandler}
+        header={props.address}
+        contentClass="hike-item__modal-content"
+        footerClass="hike-item__modal-actions"
+        footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
+      >
+        <div className="map-container">
+          <h2>MAP!</h2>
+        </div>
+      </Modal>
     <li className="hike-item">
       <Card className="hike-item__content">
         <div className="hike-item__image">
@@ -17,12 +39,13 @@ const HikeItem = props => {
           <p>{props.description}</p>
         </div>
         <div className="hike-item__actions">
-          <Button inverse>VIEW ON MAP</Button>
-          <Button to={`/places/${props.id}`}>EDIT</Button>
+          <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
+          <Button to={`/hikes/${props.id}`}>EDIT</Button>
           <Button danger>DELETE</Button>
         </div>
       </Card>
     </li>
+    </React.Fragment>
   );
 };
 
