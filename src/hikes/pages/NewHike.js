@@ -1,7 +1,20 @@
 import React from 'react';
 
+import Input from '../../shared/components/FormElements/Input';
+import './NewHike.css';
+
 const NewHike = () => {
-  return <h2>NewHike Works!</h2>
+  return (
+    <form className="hike-form">
+      <Input
+        element="input"
+        type="text"
+        label="Title"
+        validators={[]}
+        errorText="Please enter a valid title."
+      />
+  </form>
+  );
 };
 
 export default NewHike;
