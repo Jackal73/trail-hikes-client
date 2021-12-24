@@ -1,6 +1,7 @@
-import React from 'react';import { useParams} from 'react-router-dom';
-
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import HikeList from '../components/HikeList';
+
 
 
 const DUMMY_HIKES = [
@@ -11,8 +12,8 @@ const DUMMY_HIKES = [
       imageUrl: 'https://images.pexels.com/photos/10401037/pexels-photo-10401037.jpeg?cs=srgb&dl=pexels-veronika-bykovich-10401037.jpg&fm=jpg',
       address: 'Rolla, Mo',
       location: {
-        lat: 40.7484405,
-        lng: -73.9878584
+        lat: 37.951424,
+        lng: -91.768959
       },
       creator: 'u1'
     },
