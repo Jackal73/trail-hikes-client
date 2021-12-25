@@ -53,8 +53,13 @@ const NewHike = () => {
     });
   }, []);
 
+  const placeSubmitHandler = event => {
+    event.preventDefault();
+    console.log(formState.inputs); // Send this to the backend...
+  }
+
   return (
-    <form className="hike-form">
+    <form className="hike-form" onSubmit={placeSubmitHandler}>
       <Input
         id="title"
         element="input"
@@ -70,6 +75,14 @@ const NewHike = () => {
         label="Description"
         validators={[VALIDATOR_MINLENGTH(5)]}
         errorText="Please enter a valid description (min 5 characters)."
+        onInput={inputHandler}
+      />
+      <Input
+        id="address"
+        element="input"
+        label="Addess"
+        validators={[VALIDATOR_REQUIRE()]}
+        errorText="Please enter a valid address."
         onInput={inputHandler}
       />
       <Button type="submit" disabled={!formState.isValid}>
