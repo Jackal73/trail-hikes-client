@@ -2,6 +2,7 @@ import React from 'react';
 
 import Card from '../../shared/components/UIElements/Card';
 import HikeItem from './HikeItem';
+import Button from '../../shared/components/FormElements/Button';
 import './HikeList.css';
 
 const HikeList = props => {
@@ -10,7 +11,7 @@ const HikeList = props => {
       <div className="hike-list center">
         <Card>
           <h2>No hikes found. Maybe create one?</h2>
-          <button>Share Hike</button>
+          <Button to="/places/new">Share Hike</Button>
         </Card>
       </div>
     );
