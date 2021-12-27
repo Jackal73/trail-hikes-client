@@ -1,8 +1,9 @@
 import React, { useCallback, useReducer } from 'react';
+
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/components/util/validators';
-import './NewHike.css';
+import './HikeForm.css';
 
 
 const formReducer = (state, action) => {
@@ -37,6 +38,10 @@ const NewHike = () => {
         isValid: false
       },
       description: {
+        value: '',
+        isValid: false
+      },
+      address: {
         value: '',
         isValid: false
       }
@@ -80,7 +85,7 @@ const NewHike = () => {
       <Input
         id="address"
         element="input"
-        label="Addess"
+        label="Address"
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter a valid address."
         onInput={inputHandler}

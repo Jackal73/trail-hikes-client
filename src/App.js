@@ -10,8 +10,7 @@ import NewHike from './hikes/pages/NewHike';
 import UserHikes from './hikes/pages/UserHikes';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import Users from './user/pages/Users';
-
-
+import UpdateHike from './hikes/pages/UpdateHike';
 
 const App = () => {
   return (
@@ -27,6 +26,9 @@ const App = () => {
           </Route>
           <Route path="/hikes/new" exact>
             <NewHike />
+          </Route>
+          <Route path="/hikes/:hikeId">
+            <UpdateHike />
           </Route>
           <Redirect to="/" />
         </Switch>

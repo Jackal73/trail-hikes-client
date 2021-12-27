@@ -3,10 +3,14 @@ import { useParams } from 'react-router-dom';
 
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
-import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
+import {
+  VALIDATOR_REQUIRE,
+  VALIDATOR_MINLENGTH
+} from '../../shared/components/util/validators';
+import './HikeForm.css';
 
 const DUMMY_HIKES = [
-{
+  {
     id: 'p1',
     title: 'Python Minion Trail',
     description: 'Beautiful stone bridge halfway through hike!',
@@ -33,13 +37,20 @@ const DUMMY_HIKES = [
 ];
 
 const UpdateHike = () => {
-    const hikeId = useParams().hikeId;
-const identifiedHike = DUMMY_HIKES.find(p => p.id === hikeId);
+  const hikeId = useParams().hikeId;
 
-if (!identifiedHike) {
-    return <div className="center"><h2>Could not find hike!</h2></div>
-}
-    return <form>
+  const identifiedHike = DUMMY_HIKES.find(p => p.id === hikeId);
+
+  if (!identifiedHike) {
+    return (
+      <div className="center">
+        <h2>Could not find hike!</h2>
+      </div>
+    );
+  }
+
+  return (
+    <form className="hike-form">
       <Input
         id="title"
         element="input"
@@ -61,8 +72,11 @@ if (!identifiedHike) {
         value={identifiedHike.description}
         valid={true}
       />
-      <Button type="submit" disabled={true}>UPDATE_HIKE</Button>
-    </form>;
+      <Button type="submit" disabled={true}>
+        UPDATE HIKE
+      </Button>
+    </form>
+  );
 };
 
 export default UpdateHike;

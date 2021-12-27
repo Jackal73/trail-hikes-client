@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
+
 import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
 import Map from '../../shared/components/UIElements/Map';
 import Modal from '../../shared/components/UIElements/Modal';
 import './HikeItem.css';
-
-
-
 
 const HikeItem = props => {
   const [showMap, setShowMap] = useState(false);
