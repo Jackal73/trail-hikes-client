@@ -28,7 +28,7 @@ const App = () => {
           <Route path="/hikes/new" exact>
             <NewHike />
           </Route>
-          <Route path="/hikes/:hikesId">
+          <Route path="/hikes/:hikeId">
             <UpdateHike />
           </Route>
           <Route path="/auth">
