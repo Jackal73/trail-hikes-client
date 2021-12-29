@@ -8,10 +8,24 @@ import './HikeItem.css';
 
 const HikeItem = props => {
   const [showMap, setShowMap] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const openMapHandler = () => setShowMap(true);
 
   const closeMapHandler = () => setShowMap(false);
+
+  const showDeleteWarningHandler = () => {
+    setShowConfirmModal(true);
+  };
+
+  const cancelDeleteHandler = () => {
+    setShowConfirmModal(false);
+  };
+
+  const confirmDeleteHandler = () => {
+    setShowConfirmModal(false);
+    console.log('DELETING . . .');
+  };
 
   return (
     <React.Fragment>
@@ -27,6 +41,19 @@ const HikeItem = props => {
           <Map center={props.coordinates} zoom={16} />
         </div>
       </Modal>
+      <Modal
+        show={showConfirmModal}
+        onCancel={cancelDeleteHandler}
+        header="Are you sure?"
+        footerClass="hike-item__modal-actions"
+        footer={
+          <React.Fragment>
+            <Button inverse onClick={cancelDeleteHandler}>CANCEL</Button>
+            <Button danger onClick={confirmDeleteHandler}>DELETE</Button>
+          </React.Fragment>
+        }>
+        <p>Do you want to delete this hike? Please note it cannot be undone thereafter.</p>
+      </Modal>
     <li className="hike-item">
       <Card className="hike-item__content">
         <div className="hike-item__image">
@@ -40,7 +67,7 @@ const HikeItem = props => {
         <div className="hike-item__actions">
           <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
           <Button to={`/hikes/${props.id}`}>EDIT</Button>
-          <Button danger>DELETE</Button>
+          <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
         </div>
       </Card>
     </li>
