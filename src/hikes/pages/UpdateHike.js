@@ -78,7 +78,7 @@ const UpdateHike = () => {
     setIsLoading(false);
   }, [setFormData, identifiedHike]);
 
-  const placeUpdateSubmitHandler = event => {
+  const hikeUpdateSubmitHandler = event => {
     event.preventDefault();
     console.log(formState.inputs);
   }
@@ -102,7 +102,7 @@ const UpdateHike = () => {
   }
 
   return (
-    <form className="hike-form" onSubmit={placeUpdateSubmitHandler}>
+    <form className="hike-form" onSubmit={hikeUpdateSubmitHandler}>
       <Input
         id="title"
         element="input"
