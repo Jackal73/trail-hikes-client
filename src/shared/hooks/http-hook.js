@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-export const useHttpClient = () => {
+ export const useHttpClient = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
 
     const activeHttpRequests = useRef([]);
 
-    const sendRequest = useCallback(async (
+    const sendRequest = useCallback(
+        async (
         url,
         method = 'GET',
         body = null,
@@ -17,7 +18,7 @@ export const useHttpClient = () => {
         activeHttpRequests.current.push(httpAbortCtrl);
 
         try {
-            const response = await fetch(url,  {
+            const response = await fetch(url,{
                 method,
                 body,
                 headers,
@@ -37,6 +38,7 @@ export const useHttpClient = () => {
             return responseData;
         } catch (err) {
             setError(err.message);
+            setIsLoading(false);
 
             throw err;
         }
@@ -55,3 +57,4 @@ export const useHttpClient = () => {
 
     return { isLoading, error, sendRequest, clearError };
 };
+

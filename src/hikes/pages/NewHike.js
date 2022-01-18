@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
-import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import { AuthContext } from '../../shared/context/auth-context';
 import { useForm } from '../../shared/hooks/form-hook';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 import './HikeForm.css';
 
-
-
 const NewHike = () => {
+  const auth = useContext(AuthContext);
+  const {isLoading, error, sendRequest, clearError} = useHttpClient();
   const [formState, inputHandler] = useForm(
     {
       title: {
@@ -27,15 +32,31 @@ const NewHike = () => {
    false
   );
 
+  const history = useHistory();
 
-
-  const placeSubmitHandler = event => {
+  const hikeSubmitHandler = async event => {
     event.preventDefault();
-    console.log(formState.inputs); // Send this to the backend...
-  }
+    try {
+      await sendRequest(
+        'http://localhost:5000/api/hikes',
+        'POST',
+        JSON.stringify({
+          title: formState.inputs.title.value,
+          description: formState.inputs.description.value,
+          address: formState.inputs.address.value,
+          creator: auth.userId
+        }),
+      { 'Content-Type': 'application/json'}
+      );
+      history.push('/');
+    } catch (err) {}
+  };
 
   return (
-    <form className="hike-form" onSubmit={placeSubmitHandler}>
+    <React.Fragment>
+    <ErrorModal error={error} onClear={clearError} />
+    <form className="hike-form" onSubmit={hikeSubmitHandler}>
+      {isLoading && <LoadingSpinner asOverlay />}
       <Input
         id="title"
         element="input"
@@ -62,9 +83,10 @@ const NewHike = () => {
         onInput={inputHandler}
       />
       <Button type="submit" disabled={!formState.isValid}>
-        ADD PLACE
+        ADD HIKE
       </Button>
   </form>
+  </React.Fragment>
   );
 };
 

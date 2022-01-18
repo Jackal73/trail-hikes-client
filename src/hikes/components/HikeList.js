@@ -11,7 +11,7 @@ const HikeList = props => {
       <div className="hike-list center">
         <Card>
           <h2>No hikes found. Maybe create one?</h2>
-          <Button to="/places/new">Share Hike</Button>
+          <Button to="/hikes/new">Share Hike</Button>
         </Card>
       </div>
     );
@@ -23,12 +23,13 @@ const HikeList = props => {
         <HikeItem
           key={hike.id}
           id={hike.id}
-          image={hike.imageUrl}
+          image={hike.image}
           title={hike.title}
           description={hike.description}
           address={hike.address}
           creatorId={hike.creator}
           coordinates={hike.location}
+          onDelete={props.onDeleteHike}
         />
       ))}
     </ul>
