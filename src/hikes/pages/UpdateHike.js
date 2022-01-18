@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
@@ -9,40 +9,19 @@ import {
   VALIDATOR_MINLENGTH
 } from '../../shared/util/validators';
 import { useForm } from '../../shared/hooks/form-hook';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import { AuthContext } from '../../shared/context/auth-context';
 import './HikeForm.css';
 
-const DUMMY_HIKES = [
-  {
-    id: 'p1',
-    title: 'Python Minion Trail',
-    description: 'Beautiful stone bridge halfway through hike!',
-    imageUrl: 'https://images.pexels.com/photos/10401037/pexels-photo-10401037.jpeg?cs=srgb&dl=pexels-veronika-bykovich-10401037.jpg&fm=jpg',
-    address: 'Rolla, Mo',
-    location: {
-      lat: 37.951424,
-      lng: -91.768959
-    },
-    creator: 'u1'
-  },
-  {
-    id: 'p2',
-    title: 'Salt Lick Trail',
-    description: 'I think the dogs had more fun climbing around than we did!',
-    imageUrl: 'https://images.pexels.com/photos/7348515/pexels-photo-7348515.jpeg?cs=srgb&dl=pexels-rodnae-productions-7348515.jpg&fm=jpg',
-    address: 'Columbia, Il',
-    location: {
-      lat: 40.7484405,
-      lng: -73.9878584
-    },
-    creator: 'u2'
-  }
-];
-
 const UpdateHike = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const auth = useContext(AuthContext);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const [loadedHike, setLoadedHike] = useState();
+
   const hikeId = useParams().hikeId;
-
-
+  const history = useHistory();
 
   const [formState, inputHandler, setFormData] =  useForm({
     title: {
@@ -56,34 +35,62 @@ const UpdateHike = () => {
   }, false
   );
 
-  const identifiedHike = DUMMY_HIKES.find(p => p.id === hikeId);
-
-
   useEffect(() => {
-    if (identifiedHike) {
+    const fetchHike = async () => {
+      try {
+      const responseData = await sendRequest(
+        `http://localhost:5000/api/hikes/${hikeId}`
+      );
+      setLoadedHike(responseData.hike);
+      setFormData(
+        {
+          title: {
+            value: responseData.hike.title,
+            isValid: true
+          },
+          description: {
+            value: responseData.hike.description,
+            isValid: true
+          }
+        },
+        true
+        );
 
-    setFormData({
-      title: {
-        value: identifiedHike.title,
-        isValid: true
-      },
-      description: {
-        value: identifiedHike.description,
-        isValid: true
-      }
-    },
-    true
+
+    } catch (err) {}
+  };
+    fetchHike();
+  }, [sendRequest, hikeId, setFormData]);
+
+  const hikeUpdateSubmitHandler = async event => {
+    event.preventDefault();
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/hikes/${hikeId}`,
+        'PATCH',
+        JSON.stringify({
+      title: formState.inputs.title.value,
+      description: formState.inputs.description.value
+    }),
+    {
+      'Content-Type': 'application/json'
+    }
+      );
+      history.push('/' + auth.userId + '/hikes');
+    } catch (err) {};
+    };
+
+
+
+  if (isLoading) {
+    return (
+      <div className="center">
+        <LoadingSpinner />
+      </div>
     );
   }
-    setIsLoading(false);
-  }, [setFormData, identifiedHike]);
 
-  const hikeUpdateSubmitHandler = event => {
-    event.preventDefault();
-    console.log(formState.inputs);
-  }
-
-  if (!identifiedHike) {
+  if (!loadedHike && !error) {
     return (
       <div className="center">
         <Card>
@@ -93,16 +100,12 @@ const UpdateHike = () => {
     );
   }
 
-  if (isLoading) {
-    return (
-      <div className="center">
-        <h2>Loading . . .</h2>
-      </div>
-    );
-  }
+
 
   return (
-    <form className="hike-form" onSubmit={hikeUpdateSubmitHandler}>
+    <React.Fragment>
+    <ErrorModal error={error} onClear={clearError} />
+    {!isLoading && loadedHike && <form className="hike-form" onSubmit={hikeUpdateSubmitHandler}>
       <Input
         id="title"
         element="input"
@@ -111,8 +114,8 @@ const UpdateHike = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter a valid title."
         onInput={inputHandler}
-        initialValue={formState.inputs.title.value}
-        initialValid={formState.inputs.title.isValid}
+        initialValue={loadedHike.title}
+        initialValid={true}
       />
       <Input
         id="description"
@@ -121,14 +124,16 @@ const UpdateHike = () => {
         validators={[VALIDATOR_MINLENGTH(5)]}
         errorText="Please enter a valid description (min. 5 characters)."
         onInput={inputHandler}
-        initialValue={formState.inputs.description.value}
-        initialValid={formState.inputs.description.isValid}
+        initialValue={loadedHike.description}
+        initialValid={true}
       />
       <Button type="submit" disabled={!formState.isValid}>
         UPDATE HIKE
       </Button>
-    </form>
+    </form>}
+    </React.Fragment>
   );
+
 };
 
 export default UpdateHike;
