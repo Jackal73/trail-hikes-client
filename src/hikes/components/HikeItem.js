@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import Map from '../../shared/components/UIElements/Map';
 import Modal from '../../shared/components/UIElements/Modal';
 import { AuthContext } from '../../shared/context/auth-context';
 import { useHttpClient } from '../../shared/hooks/http-hook';
-import ErrorModal from '../../shared/components/UIElements/ErrorModal';
-import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import './HikeItem.css';
 
 
@@ -68,7 +68,7 @@ const HikeItem = props => {
       <Card className="hike-item__content">
         {isLoading && <LoadingSpinner asOverlay />}
         <div className="hike-item__image">
-          <img src={props.image} alt={props.title} />
+          <img src={`http://localhost:5000/${props.image}`} alt={props.title} />
         </div>
         <div className="hike-item__info">
           <h2>{props.title}</h2>
