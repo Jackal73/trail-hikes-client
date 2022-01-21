@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-
 import Button from '../../shared/components/FormElements/Button';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import Input from '../../shared/components/FormElements/Input';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { AuthContext } from '../../shared/context/auth-context';
 import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/http-hook';
-import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 import './HikeForm.css';
+
 
 const NewHike = () => {
   const auth = useContext(AuthContext);
@@ -53,7 +53,7 @@ const NewHike = () => {
       await sendRequest(
         'http://localhost:5000/api/hikes',
         'POST',
-  formData
+  formData, {Authorization: 'Bearer ' + auth.token}
       );
       history.push('/');
     } catch (err) {}

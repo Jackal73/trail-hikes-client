@@ -69,12 +69,13 @@ const UpdateHike = () => {
         `http://localhost:5000/api/hikes/${hikeId}`,
         'PATCH',
         JSON.stringify({
-      title: formState.inputs.title.value,
-      description: formState.inputs.description.value
-    }),
+          title: formState.inputs.title.value,
+          description: formState.inputs.description.value
+        }),
     {
-      'Content-Type': 'application/json'
-    }
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + auth.token
+        }
       );
       history.push('/' + auth.userId + '/hikes');
     } catch (err) {};
